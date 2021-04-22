@@ -2,85 +2,43 @@
 
 <template>
   <v-container fluid>
-    <div class="timeline">
+    <div 
+      class="timeline"
+      v-for="(experience, index) in experiences"
+      v-bind:item="experience"
+      v-bind:index="index"
+      v-bind:key="experience.id"
+    >
       <!-- Experience 1 -->
       <div class="timeline-item">
-        <h4 class="item-title">Chinese Academy of Sciences</h4>
-        <span class="item-period">Apr 2014 - Aug 2017</span>
-        <span class="item-small">Software Engineer</span>
+        <h4 class="item-title">{{ experience.company }}</h4>
+        <span class="item-period">{{ experience.dateFrom }} - {{ experience.dateTo }}</span>
+        <span class="item-small">{{ experience.role }}</span>
         <p class="item-description">
-        <ul>
-          <li>Worked as a software engineer in a large team for national tasks using Tensorflow and
-            Python.
-          </li>
-          <li>Worked as a web developer, using php CMS frameworks (CI, Laravel, WordPress, Opencart,
-            Prestashop, …), HTML5, CSS3 and JavaScript for medical, educational sites.</li>
-        </ul>
+          {{ experience.description }}
         </p>
       </div>
-      <!-- / Experience 1 -->
-
-      <!-- Experience 2 -->
-      <div class="timeline-item">
-        <h4 class="item-title">True Prodigy (Texas, US)</h4>
-        <span class="item-period">Dec 2017 - Mar 2019</span>
-        <span class="item-small">Frontend developer (remote)</span>
-        <p class="item-description">I started my career as a freelancer since 2015. Prodigy was one of
-          my biggest clients, which I worked as frontend developer using React for.
-          Work at Prodigy company as a Full-stack developer (MERN stack) and React-Native developer
-          for Hybrid Mobile development. This was a big project and we were able to finish it
-          successfully.
-        </p>
-      </div>
-      <!-- / Experience 2 -->
-
-      <!-- Experience 2 -->
-      <div class="timeline-item">
-        <h4 class="item-title">Snowfall Tech (London, UK)</h4>
-        <span class="item-period">Nov 2016 - Feb 2018</span>
-        <span class="item-small">Python Developer(DevOps) (remote)</span>
-        <p class="item-description">Python is all the rage in the world and its frameworks are rapidly
-          improving and releasing. I worked as Backend developer
-          using Python frameworks(Flask/Django). After that, I participated in developing Artificial
-          Intelligence part.</p>
-      </div>
-      <!-- / Experience 2 -->
-
-      <!-- Experience 3 -->
-      <div class="timeline-item">
-        <h4 class="item-title">Brightcast (London, UK)</h4>
-        <span class="item-period">Dec 2019 - Aug 2020</span>
-        <span class="item-small">Full-stack developer (remote)</span>
-        <p class="item-description">I worked alone with their CTO and I was responsible for both
-          frontend (Angular) and backend (ASP.NET Core), even deploying to Azure.</p>
-      </div>
-      <!-- / Experience 3 -->
-
-      <!-- Experience 3 -->
-      <div class="timeline-item">
-        <h4 class="item-title">TazzerClean (Rotherham, UK)</h4>
-        <span class="item-period">Dec 2020 - Feb 2021</span>
-        <span class="item-small">Project manager, DevOps</span>
-        <p class="item-description">ASP.NET Core for backend API, Vue.js for frontend. My role was to
-          assign tasks to other developers and
-          to check their code, to merge, deploy the changes. I used to deploy with Azure Repos'
-          pipelines and release. I used to work as a techincal supporter with DBMS, database
-          structuure and project flow</p>
-      </div>
-      <!-- / Experience 3 -->
     </div>
   </v-container>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   computed: {
     isMobile() {
       if (this.$vuetify.breakpoint.mdAndDown) return "width: 100%";
       return "width: 80%";
     },
+    ...mapGetters({
+      experiences: "common/workExp",
+    }),
   },
   data: () => ({}),
+  created() {
+    this.$store.dispatch("common/getWorkExp");
+  },
   methods: {
   },
 };

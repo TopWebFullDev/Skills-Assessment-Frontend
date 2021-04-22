@@ -2,38 +2,43 @@
 
 <template>
   <v-container fluid>
-    <div class="timeline">
-      <!-- Education 1 -->
+    <div
+      class="timeline"
+      v-for="(education, index) in educations"
+      v-bind:item="education"
+      v-bind:index="index"
+      v-bind:key="education.id"
+    >
       <div class="timeline-item">
-        <h4 class="item-title">Tsinghua University</h4>
-        <span class="item-period">Apr 2009 - Jun 2014</span>
-        <span class="item-small">General course</span>
-        <p class="item-description">Master of Science in Computer Science<br> GPA: 4.66</p>
+        <h4 class="item-title">{{ education.school }}</h4>
+        <span class="item-period">{{ education.yearFrom }} - {{ education.yearTo }}</span>
+        <span class="item-small">Skills: {{JSON.parse(education.skills)}} </span>
+        <p class="item-description">
+          Master of Science in Computer Science<br />
+          GPA: 4.66
+        </p>
       </div>
-      <!-- / Education 1 -->
-
-      <!-- Education 2 -->
-      <div class="timeline-item">
-        <h4 class="item-title">Chinese Academy of Sciences</h4>
-        <span class="item-period">Jun 2014 - Dec 2016</span>
-        <span class="item-small">Specialization Course</span>
-        <p class="item-description">Bachelor of Engineering in Electrical and Electronics<br> GPA: 4.3
-          (9.5 / 10)</p>
-      </div>
-      <!-- / Education 2 -->
     </div>
   </v-container>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   computed: {
     isMobile() {
       if (this.$vuetify.breakpoint.mdAndDown) return "width: 100%";
       return "width: 80%";
     },
+    ...mapGetters({
+      educations: "common/educations",
+    }),
   },
   data: () => ({}),
+  created() {
+    this.$store.dispatch("common/getEducations");
+  },
   methods: {
   },
 };
@@ -51,12 +56,12 @@ export default {
   margin-left: 20px;
   margin-bottom: 20px;
   background-color: #fff;
-  border-left: 2px solid #2196F3;
-  box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.2);
+  border-left: 2px solid #2196f3;
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2);
 }
 
 .timeline-item:hover {
-  box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.2);
 }
 
 .timeline-item:last-child {
@@ -64,7 +69,7 @@ export default {
 }
 
 .timeline-item:before {
-  content: '';
+  content: "";
   display: inline-block;
   position: absolute;
   background-color: #fff;
@@ -73,15 +78,15 @@ export default {
   height: 12px;
   top: 20px;
   left: -29px;
-  border: 2px solid #2196F3;
+  border: 2px solid #2196f3;
   z-index: 2;
 }
 
 .timeline-item:after {
-  content: '';
+  content: "";
   display: inline-block;
   position: absolute;
-  background-color: #2196F3;
+  background-color: #2196f3;
   border-radius: 10px;
   width: 29px;
   height: 2px;
@@ -101,7 +106,7 @@ export default {
   display: inline-block;
   font-size: 12px;
   line-height: 1.2em;
-  color: #2196F3;
+  color: #2196f3;
   margin-bottom: 8px;
 }
 

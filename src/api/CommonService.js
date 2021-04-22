@@ -9,7 +9,6 @@ const baseUrl = process.env.VUE_APP_API_URL;
 
 const apiClient = axios.create({
   baseURL: baseUrl,
-  withCredentials: false,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -28,7 +27,7 @@ export default {
   },
   async getWorkExp() {
     return apiClient
-      .get(`/education`)
+      .get(`/experience`)
       .then((result) => {
         NProgress.done();
         return result;

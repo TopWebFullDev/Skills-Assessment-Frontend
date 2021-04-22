@@ -11,15 +11,9 @@ export const state = () => ({
 });
 
 export const getters = {
-  educations: (state) => {
-    return state.educations;
-  },
-  workExp: (state) => {
-    return state.workExp;
-  },
-  randomNum: (state) => {
-    return state.randomNum;
-  },
+  educations: (state) => state.educations,
+  workExp: (state) => state.workExp,
+  randomNum: (state) => state.randomNum,
   loading: (state) => state.loading,
 };
 
