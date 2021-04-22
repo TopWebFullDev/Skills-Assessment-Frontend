@@ -7,6 +7,7 @@ export const state = () => ({
   educations: [],
   workExp: [],
   randomNum: null,
+  rpsOpponentsMove: 0,
   loading: false
 });
 
@@ -14,6 +15,7 @@ export const getters = {
   educations: (state) => state.educations,
   workExp: (state) => state.workExp,
   randomNum: (state) => state.randomNum,
+  rpsOpponentsMove: (state) => state.rpsOpponentsMove,
   loading: (state) => state.loading,
 };
 
@@ -26,6 +28,9 @@ export const mutations = {
   },
   SET_RANDOMNUMBER(state, data) {
     state.randomNum = data
+  },
+  SET_RPS_OPPONENTS_MOVE(state, data) {
+    state.rpsOpponentsMove = data
   },
   SET_LOADING(state, data) {
     state.loading = data
@@ -57,6 +62,16 @@ export const actions = {
     try {
       const r = await CommonService.getRandomNumber();
       commit("SET_RANDOMNUMBER", r.data);
+      return r;
+    } catch (e) {
+      let responseStatus = {};
+      return responseStatus;
+    }
+  },
+  async getRPSOpponentsMove({ commit }) {
+    try {
+      const r = await CommonService.getRPSOpponentsMove();
+      commit("SET_RPS_OPPONENTS_MOVE", r.data);
       return r;
     } catch (e) {
       let responseStatus = {};

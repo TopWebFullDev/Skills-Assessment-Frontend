@@ -43,4 +43,13 @@ export default {
       })
       .catch();
   },
+  async getRPSOpponentsMove() {
+    return apiClient
+      .get(`/rps-opponents-move`)
+      .then((result) => {
+        NProgress.done();
+        return result;
+      })
+      .catch();
+  },
 };
