@@ -31,7 +31,7 @@ import Cell from './Cell'
 import Choice from './Choice'
 import Winner from './Winner'
 import checkWin from '../../util/checkWin'
-import aiPlay, { aiAssign } from '../../util/minimax'
+import { mapGetters, mapActions } from "vuex"
 
 export default {
   components: {
@@ -39,6 +39,11 @@ export default {
     Choice,
     Winner,
     Loading,
+  },
+  computed: {
+    ...mapGetters({
+      tttAiMove: "common/tttAiMove",
+    }),
   },
   data() {
     return {
@@ -61,33 +66,41 @@ export default {
     },
   },
   methods: {
-    cellClicked(i, j) {
-      if (!this.cells[i][j]) {
-        this.$set(this.cells[i], j, this.user)
+    ...mapActions({
+      tttAiAssign: "common/tttAiAssign",
+      getTttAiMove: "common/getTttAiMove",
+    }),
+    cellClicked(ui, uj) {
+      if (!this.cells[ui][uj]) {
+        this.$set(this.cells[ui], uj, this.user)
         this.isLoading = true
         // used nextTick because of wait `cells` watcher to set winner state
         this.$nextTick(() => {
           if (!this.winner)
-            setTimeout(() => {
-              const { i, j } = aiPlay()
-              this.$set(this.cells[i], j, this.comp)
+            setTimeout(async () => {
+              await this.getTttAiMove({i: ui, j: uj})
+              const { i, j } = this.tttAiMove
+              if (i != undefined && j != undefined)
+                this.$set(this.cells[i], j, this.comp)
               this.isLoading = false
             }, 500)
         })
       }
     },
-    selectMark(mark) {
+    async selectMark(mark) {
       Object.assign(this.$data, this.$options.data()) //initial state
-      aiAssign(this.cells, mark)
+      let result = await this.tttAiAssign(mark)
+      if (result === null) {
+        alert("Server is gone")
+        this.user = 'o'
+        return;
+      }
+      const { i, j } = this.tttAiMove
       this.user = mark
       this.comp = mark === 'x' ? 'o' : 'x'
       if (mark === 'o') {
         // first random play by AI
-        this.$set(
-          this.cells[~~(Math.random() * 3)],
-          ~~(Math.random() * 3),
-          this.comp
-        )
+        this.$set(this.cells[i], j, this.comp)
       }
     },
   },

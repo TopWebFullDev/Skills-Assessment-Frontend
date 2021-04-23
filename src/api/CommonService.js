@@ -52,4 +52,22 @@ export default {
       })
       .catch();
   },
+  async tttAiAssign(mark) {
+    return apiClient
+      .get(`/ttt-ai-assign?mark=${mark}`)
+      .then((result) => {
+        NProgress.done();
+        return result;
+      })
+      .catch();
+  },
+  async getTttAiMove(i, j) {
+    return apiClient
+      .get(`/ttt-ai-move?i=${i}&j=${j}`)
+      .then((result) => {
+        NProgress.done();
+        return result;
+      })
+      .catch();
+  },
 };
