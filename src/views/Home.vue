@@ -13,6 +13,7 @@
       <v-tab href="#tab-education">Education</v-tab>
       <v-tab href="#tab-demo">Demo</v-tab>
       <v-tab href="#tab-RPS">RPS game</v-tab>
+      <v-tab href="#tab-TTT">TTT game</v-tab>
     </v-tabs>
 
     <v-tabs-items v-model="tab">
@@ -36,6 +37,11 @@
           <RPS />
         </v-card>
       </v-tab-item>
+      <v-tab-item :value="'tab-TTT'">
+        <v-card color="basil" flat>
+          <Board />
+        </v-card>
+      </v-tab-item>
     </v-tabs-items>
   </v-card>
 </template>
@@ -45,6 +51,7 @@ import Educations from '../components/Educations'
 import Experiences from '../components/Experiences'
 import RandomNumber from '../components/RandomNumber'
 import RPS from '../components/RPS'
+import Board from '../components/TTT/Board'
 
 export default {
   name: 'Home',
@@ -53,6 +60,7 @@ export default {
     Experiences,
     RandomNumber,
     RPS,
+    Board,
   },
   data: () => ({
     tab: null,
@@ -63,8 +71,6 @@ export default {
       'Rock-Paper-Scissors',
       'Tic Tac Toe',
     ],
-    text:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
   }),
   computed: {
     isMobile() {
